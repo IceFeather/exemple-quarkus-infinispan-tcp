@@ -1,6 +1,6 @@
-package fr.icefeather.exemple.quarkus.config;
+package fr.icefeather.exemple.quarkus;
 
-
+import fr.icefeather.exemple.quarkus.cache.ExempleObjectContextInitializerImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.infinispan.configuration.global.GlobalConfiguration;
@@ -20,8 +20,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import fr.icefeather.exemple.quarkus.cache.ExempleObjectContextInitializerImpl;
 
 @Slf4j
 public class InfinispanConfig {
@@ -46,7 +44,7 @@ public class InfinispanConfig {
      */
     @ApplicationScoped
     EmbeddedCacheManager cacheManager() throws Exception {
-        log.info("Debut configuration infinispan avec\n" +
+        log.info("Début configuration infinispan avec\n" +
                 "adresse : {}\n" +
                 "port: {}\n" +
                 "members: {}\n" +
@@ -57,10 +55,12 @@ public class InfinispanConfig {
                 machine
         );
 
-        // On transforme la poropriété issue de la configuration infinispan.adresse en InetAddress pour la conf TCP
+        // On transforme la propriété issue de la configuration infinispan.adresse en InetAddress pour la conf TCP
+        // We tranform the property from the infinispan.adresse configuration in InetAddress for the use in TCP
         InetAddress bindAddr = InetAddress.getByName(adresse);
 
-        // On transforme la liste issue de la configuration infinispan.mambers en list d'inetSocketAddress pour la conf TCPPING
+        // On transforme la liste issue de la configuration infinispan.members en list d'inetSocketAddress pour la conf TCPPING
+        // We transform the list from the infinispan.members configuration property in list of InetSocketAddress for the use in TCPPING
         List<InetSocketAddress> infinispanMembers = members.stream()
                 .map(h -> {
                     String host = h.substring(0, h.indexOf("["));
@@ -70,9 +70,11 @@ public class InfinispanConfig {
         ;
 
         // On déclare une nouvelle configuration globale
+        // We declare a new infinispan global configuration
         GlobalConfigurationBuilder globalConfigurationBuilder = new GlobalConfigurationBuilder();
 
         // On déclare notre stack de protocoles
+        // We declare our protocols stack
         Protocol[] protocols = {
                 new TCP_NIO2()
                         .setBindAddress(bindAddr)
@@ -95,18 +97,16 @@ public class InfinispanConfig {
                 new FRAG3()
         };
 
-        // On déclare la configuration JChannel avec notre stack
+        // On crée la configuration JChannel avec notre stack
+        // We create the JChannel with our stack
         JChannel jChannel = new JChannel(protocols).name("EXEMPLE");
 
-        /// On déclare la configuration JGroups avec notre configuration JChannel
+        /// On crée la configuration JGroups avec notre configuration JChannel
+        // We create the JGroups with our JChannel configuration
         JGroupsTransport transport = new JGroupsTransport(jChannel);
 
-
-        /**
-         * -------------------------------
-         */
-
         // On défini la configuration du cache clusterisé
+        // We define the cluster cache configuration
         globalConfigurationBuilder.cacheContainer()
                 .name("exemple-cache")
                 .transport()
@@ -118,14 +118,14 @@ public class InfinispanConfig {
                     .addContextInitializer(new ExempleObjectContextInitializerImpl());
 
 
-
-
         // On build la configuration
+        // We build the infinispan configuration
         GlobalConfiguration globalConfiguration = globalConfigurationBuilder.build();
 
         log.info("Démarrage cache manager");
 
-        // On retourne le CacheManager issu de la configuration globale crée dans un nouveau bean EmbeddedCacheManager
+        // On retourne le CacheManager issu de la configuration globale créée dans un nouveau bean EmbeddedCacheManager
+        // We return the CacheManager build from the global configuration in a new bean EmbeddedCacheManager
         return new DefaultCacheManager(globalConfiguration);
 
     }

@@ -1,8 +1,5 @@
 package fr.icefeather.exemple.quarkus;
 
-import fr.icefeather.exemple.quarkus.cache.ExempleObjectCacheService;
-import fr.icefeather.exemple.quarkus.domain.ExempleObject;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

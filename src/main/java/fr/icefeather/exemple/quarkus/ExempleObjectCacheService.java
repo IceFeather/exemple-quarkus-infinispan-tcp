@@ -1,6 +1,5 @@
-package fr.icefeather.exemple.quarkus.cache;
+package fr.icefeather.exemple.quarkus;
 
-import fr.icefeather.exemple.quarkus.domain.ExempleObject;
 import io.quarkus.runtime.Startup;
 import lombok.extern.slf4j.Slf4j;
 import org.infinispan.Cache;

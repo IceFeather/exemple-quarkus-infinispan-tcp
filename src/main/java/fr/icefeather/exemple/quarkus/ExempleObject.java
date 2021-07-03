@@ -1,4 +1,4 @@
-package fr.icefeather.exemple.quarkus.domain;
+package fr.icefeather.exemple.quarkus;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -11,7 +11,6 @@ import java.io.Serializable;
 @Setter
 @Builder
 @NoArgsConstructor
-//@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class ExempleObject implements Serializable {

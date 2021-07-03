@@ -1,6 +1,5 @@
-package fr.icefeather.exemple.quarkus.cache;
+package fr.icefeather.exemple.quarkus;
 
-import fr.icefeather.exemple.quarkus.domain.ExempleObject;
 import org.infinispan.protostream.SerializationContextInitializer;
 import org.infinispan.protostream.annotations.AutoProtoSchemaBuilder;
 
