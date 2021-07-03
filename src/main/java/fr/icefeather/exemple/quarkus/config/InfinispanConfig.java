@@ -45,7 +45,7 @@ public class InfinispanConfig {
      * @throws Exception
      */
     @ApplicationScoped
-    EmbeddedCacheManager wsnCacheManager() throws Exception {
+    EmbeddedCacheManager cacheManager() throws Exception {
         log.info("Debut configuration infinispan avec\n" +
                 "adresse : {}\n" +
                 "port: {}\n" +
@@ -65,13 +65,14 @@ public class InfinispanConfig {
                 .map(h -> {
                     String host = h.substring(0, h.indexOf("["));
                     int port = Integer.parseInt(h.substring(h.indexOf("[") + 1, h.indexOf("]")));
-                    return InetSocketAddress.createUnresolved(host, port);
+                    return new InetSocketAddress(host, port);
                 }).collect(Collectors.toList())
         ;
 
         // On déclare une nouvelle configuration globale
         GlobalConfigurationBuilder globalConfigurationBuilder = new GlobalConfigurationBuilder();
 
+        // On déclare notre stack de protocoles
         Protocol[] protocols = {
                 new TCP_NIO2()
                         .setBindAddress(bindAddr)

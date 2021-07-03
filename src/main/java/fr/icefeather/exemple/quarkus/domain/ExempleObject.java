@@ -31,6 +31,5 @@ public class ExempleObject implements Serializable {
         this.prenom = prenom;
         this.adresse = adresse;
     }
-
 }
 

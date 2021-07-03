@@ -61,10 +61,6 @@
       <artifactId>quarkus-arc</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.smallrye.reactive</groupId>
       <artifactId>smallrye-mutiny-vertx-web-client</artifactId>
     </dependency>

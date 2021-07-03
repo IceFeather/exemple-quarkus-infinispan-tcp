@@ -26,7 +26,7 @@ public class ExempleObjectCacheService {
     @Inject
     EmbeddedCacheManager cacheManager;
 
-    private Cache<String, ExempleObject> cache;
+    private Cache<Integer, ExempleObject> cache;
 
     @PostConstruct
     public void init() {
@@ -41,16 +41,15 @@ public class ExempleObjectCacheService {
         cache = cacheManager.createCache(EXEMPLE_CACHE, configuration);
     }
 
-    public ExempleObject put(String key, ExempleObject exempleObject){
-        cache.put(key, exempleObject);
-        return exempleObject;
+    public ExempleObject put(ExempleObject exempleObject){
+        return cache.put(exempleObject.hashCode(), exempleObject);
     }
 
     public Collection<ExempleObject> get() {
         return cache.values();
     }
 
-    public ExempleObject get(String key){
+    public ExempleObject get(Integer key){
         return cache.get(key);
     }
 
@@ -61,11 +60,11 @@ public class ExempleObjectCacheService {
                 .orElseThrow();
     }
 
-    public void delete(String key) {
+    public void delete(Integer key) {
         cache.remove(key);
     }
 
-    public ExempleObject update(String key, ExempleObject exempleObject) {
+    public ExempleObject update(Integer key, ExempleObject exempleObject) {
         return cache.replace(key, exempleObject);
     }
 
