@@ -30,10 +30,9 @@ public class ExempleObjectCacheService {
 
     @PostConstruct
     public void init() {
-        log.info("Initialisation cache abonnements...");
+        log.info("Initialisation cache exemple...");
         log.info("ECM = {}", cacheManager);
         log.info("cluster name = {}", cacheManager.getCacheManagerInfo().getClusterName());
-        log.info("TCP = {}", cacheManager.getCacheManagerConfiguration().transport().jgroups().stacks().toString());
         Configuration configuration = new ConfigurationBuilder()
                 .clustering()
                 .cacheMode(CacheMode.REPL_SYNC)
